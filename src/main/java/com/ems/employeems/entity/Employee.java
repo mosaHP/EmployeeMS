@@ -1,11 +1,17 @@
-package com.ems.employeems.employee;
+package com.ems.employeems.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,30 +26,6 @@ public class Employee {
     public Employee(long id, String name, String surname) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
         this.surname = surname;
     }
 

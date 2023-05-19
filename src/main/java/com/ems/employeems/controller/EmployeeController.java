@@ -1,10 +1,12 @@
 package com.ems.employeems.controller;
 
-import com.ems.employeems.employee.Employee;
-import com.ems.employeems.service.EmployeeService;
+import com.ems.employeems.entity.Employee;
+import com.ems.employeems.exception.EmployeeNotFoundException;
+import com.ems.employeems.exception.InvalidRequestException;
+import com.ems.employeems.exception.ResourceNotFoundException;
+import com.ems.employeems.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-
 
     private final EmployeeService employeeService;
 
@@ -28,29 +29,23 @@ public class EmployeeController {
     }
     @GetMapping("/find/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Employee getEmployeeById(@PathVariable("id") Long id) {
-        return employeeService.findEmployeeById(id);
+    public Employee getEmployeeById(@PathVariable("id") Long id) throws EmployeeNotFoundException, ResourceNotFoundException {
+        return employeeService.getEmployee(id);
     }
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody Employee employee) {
+    public Employee addEmployee(@RequestBody Employee employee) throws InvalidRequestException, ResourceNotFoundException {
         return employeeService.addEmployee(employee);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<Employee> updateemployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
-        Employee updatedEmployee = employeeService.findEmployeeById(id);
-        updatedEmployee.setName(employee.getName());
-        updatedEmployee.setSurname(employee.getSurname());
-        updatedEmployee.setId(employee.getId());
-        employeeService.addEmployee(updatedEmployee);
-        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+    public Employee updateemployee(@PathVariable("id") Long id, @RequestBody Employee employee) throws ResourceNotFoundException, InvalidRequestException {
+        return employeeService.updateEmployee(id, employee);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("id") Long id)
-    {
-        employeeService.delete(id);
+    public void delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        employeeService.deleteEmployee(id);
 
     }
 }

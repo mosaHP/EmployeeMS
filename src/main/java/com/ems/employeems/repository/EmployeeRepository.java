@@ -1,6 +1,6 @@
 package com.ems.employeems.repository;
 
-import com.ems.employeems.employee.Employee;
+import com.ems.employeems.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
